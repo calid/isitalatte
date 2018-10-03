@@ -5,30 +5,32 @@ from tensorflow.keras import Model
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import array_to_img, img_to_array, load_img
+from tensorflow.keras.applications.inception_v3 import InceptionV3
 
 base_dir       = '/home/calid/downloads/latte-pics'
 train_dir      = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
 
-img_input = layers.Input(shape=(150, 150, 3))
+pre_trained_model = InceptionV3(
+        input_shape=(150, 150, 3),
+        include_top=False,
+        weights=None)
 
-hidden_layers = layers.Conv2D(16, 3, activation='relu')(img_input)
-hidden_layers = layers.MaxPooling2D(2)(hidden_layers)
+pre_trained_model.load_weights(
+    '/home/calid/downloads/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5')
 
-hidden_layers = layers.Conv2D(32, 3, activation='relu')(hidden_layers)
-hidden_layers = layers.MaxPooling2D(2)(hidden_layers)
+for layer in pre_trained_model.layers:
+    layer.trainable = False
 
-hidden_layers = layers.Conv2D(64, 3, activation='relu')(hidden_layers)
-hidden_layers = layers.MaxPooling2D(2)(hidden_layers)
+last_layer = pre_trained_model.get_layer('mixed7')
+last_output = last_layer.output
 
-hidden_layers = layers.Flatten()(hidden_layers)
-hidden_layers = layers.Dense(512, activation='relu')(hidden_layers)
-hidden_layers = layers.Dropout(0.5)(hidden_layers)
+hidden_layers = layers.Flatten()(last_output)
+hidden_layers = layers.Dense(1024, activation='relu')(hidden_layers)
+hidden_layers = layers.Dropout(0.2)(hidden_layers)
+hidden_layers = layers.Dense(1, activation='sigmoid')(hidden_layers)
 
-output = layers.Dense(1, activation='sigmoid')(hidden_layers)
-
-model = Model(img_input, output)
-
+model = Model(pre_trained_model.input, hidden_layers)
 model.compile(
         loss='binary_crossentropy',
         optimizer=RMSprop(lr=0.001),
