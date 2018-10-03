@@ -6,9 +6,6 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import array_to_img, img_to_array, load_img
 
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-
 base_dir       = '/home/calid/downloads/latte-pics'
 train_dir      = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
