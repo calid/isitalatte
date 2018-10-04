@@ -34,7 +34,7 @@ model = Model(pre_trained_model.input, hidden_layers)
 model.compile(
         loss='binary_crossentropy',
         optimizer=RMSprop(lr=0.001),
-        metrics=['acc'])
+        metrics=['accuracy'])
 
 train_datagen = ImageDataGenerator(
         rescale=1./255,
