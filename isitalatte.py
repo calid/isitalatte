@@ -7,6 +7,9 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import array_to_img, img_to_array, load_img
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 
+import matplotlib.pyplot as plt
+import matplotlib.image  as mpimg
+
 base_dir       = '/home/calid/downloads/latte-pics'
 train_dir      = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
@@ -22,7 +25,7 @@ pre_trained_model.load_weights(
 for layer in pre_trained_model.layers:
     layer.trainable = False
 
-last_layer = pre_trained_model.get_layer('mixed7')
+last_layer  = pre_trained_model.get_layer('mixed7')
 last_output = last_layer.output
 
 hidden_layers = layers.Flatten()(last_output)
@@ -67,5 +70,33 @@ history = model.fit_generator(
         validation_data=validation_generator,
         validation_steps=20,
         verbose=2)
+
+train_acc = history.history['acc']
+val_acc   = history.history['val_acc']
+
+train_loss = history.history['loss']
+val_loss   = history.history['val_loss']
+
+epochs = range(len(train_acc))
+
+plt.figure(figsize=(12, 12))
+
+ax = plt.subplot(2, 1, 1)
+ax.set_title('Training and Validation Accuracy')
+ax.set_xlabel("Epochs")
+ax.set_ylabel("Accuracy")
+ax.plot(epochs, train_acc, label="training")
+ax.plot(epochs, val_acc, label="validatoin")
+ax.legend()
+
+ax = plt.subplot(2, 1, 2)
+ax.set_title('Training and Validation Loss')
+ax.set_xlabel("Epochs")
+ax.set_ylabel("Loss")
+ax.plot(epochs, train_loss, label="training")
+ax.plot(epochs, val_loss, label="validatoin")
+ax.legend()
+
+plt.savefig('accuracy_and_loss.png')
 
 model.save('isitalatte.h5')
