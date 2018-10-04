@@ -10,7 +10,7 @@ from tensorflow.keras.applications.inception_v3 import InceptionV3
 import matplotlib.pyplot as plt
 import matplotlib.image  as mpimg
 
-base_dir       = '/home/calid/downloads/latte-pics'
+base_dir       = 'latte-pics'
 train_dir      = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
 
@@ -20,7 +20,7 @@ pre_trained_model = InceptionV3(
         weights=None)
 
 pre_trained_model.load_weights(
-    '/home/calid/downloads/inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5')
+    'inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5')
 
 for layer in pre_trained_model.layers:
     layer.trainable = False
