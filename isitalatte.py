@@ -68,3 +68,4 @@ history = model.fit_generator(
         validation_steps=20,
         verbose=2)
 
+model.save('isitalatte.h5')
