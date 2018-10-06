@@ -1,5 +1,7 @@
 import os
 
+import tensorflowjs as tfjs
+import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import Model
 from tensorflow.keras.optimizers import RMSprop
@@ -99,4 +101,5 @@ ax.legend()
 
 plt.savefig('accuracy_and_loss.png')
 
-model.save('isitalatte.h5')
+tf.keras.models.save_model(model, 'isitalatte.h5')
+tfjs.converters.save_keras_model(model, 'model')
