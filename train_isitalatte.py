@@ -1,13 +1,14 @@
 import os
 
-import tensorflowjs as tfjs
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import Model
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.preprocessing.image import array_to_img, img_to_array, load_img
 from tensorflow.keras.applications.inception_v3 import InceptionV3
+
+import matplotlib
+matplotlib.use("agg")
 
 import matplotlib.pyplot as plt
 import matplotlib.image  as mpimg
@@ -68,7 +69,7 @@ validation_generator = validation_datagen.flow_from_directory(
 history = model.fit_generator(
         train_generator,
         steps_per_epoch=50,
-        epochs=15,
+        epochs=30,
         validation_data=validation_generator,
         validation_steps=20,
         verbose=2)
@@ -102,4 +103,3 @@ ax.legend()
 plt.savefig('accuracy_and_loss.png')
 
 tf.keras.models.save_model(model, 'isitalatte.h5')
-tfjs.converters.save_keras_model(model, 'model')
