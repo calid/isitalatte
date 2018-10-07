@@ -66,6 +66,8 @@ validation_generator = validation_datagen.flow_from_directory(
         batch_size=15,
         class_mode='binary')
 
+print(f'Class ids: {train_generator.class_indices}')
+
 history = model.fit_generator(
         train_generator,
         steps_per_epoch=50,

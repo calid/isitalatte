@@ -12,6 +12,8 @@ test_generator = test_datagen.flow_from_directory(
         batch_size=15,
         class_mode='binary')
 
+print(f'Class ids: {test_generator.class_indices}')
+
 metrics = model.evaluate_generator(test_generator, verbose=1)
 for idx, name in enumerate(model.metrics_names):
     print("%s: %0.2f" % (name, metrics[idx]))
