@@ -1,5 +1,6 @@
 latte-pics
 accuracy_and_loss.png
-isitalatte.h5
+*.h5*
 model/
 inception_v3_weights_tf_dim_ordering_tf_kernels_notop.h5
+*.so*
