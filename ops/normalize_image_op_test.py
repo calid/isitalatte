@@ -20,8 +20,10 @@ class NormalizeImageTest(tf.test.TestCase):
             result = normalize_img_module.normalize_image(origImage).eval()
 
             self.assertAllEqual(result.shape, normalizedImage.shape)
-            np.testing.assert_almost_equal(result, normalizedImage)
+
             self.assertDTypeEqual(result, 'float32')
+            np.testing.assert_almost_equal(result, normalizedImage)
+            np.testing.assert_almost_equal(result, origImage / 255.)
 
     def genTestData(self):
         # generate fake image data of shape (IMAGE_HEIGHT, IMAGE_WIDTH, 3)
