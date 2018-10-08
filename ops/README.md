@@ -11,3 +11,4 @@ build it yourself do the following:
 0. Once the build finishes copy
    `tensorflow/bazel-bin/tensorflow/core/user_ops/normalize_image.so` back
    into this directory.
+0. To test the op run `python3 normalize_image_op_test.py`
