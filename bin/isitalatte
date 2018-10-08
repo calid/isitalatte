@@ -1,11 +1,16 @@
+#!/usr/bin/env python3
+
 import os
 
+import tensorflow as tf
 import tensorflow.keras as tfk
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing import image
 
 import numpy
 import argparse
+
+normalize_img_module = tf.load_op_library('./ops/normalize_image.so')
 
 # suppress a warning about unused cpu instructions
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -22,7 +27,10 @@ print('Done.')
 
 test_image = image.load_img(args.image, target_size=(150,150))
 test_image = image.img_to_array(test_image)
-test_image /= 255. # rescale
+
+with tf.Session().as_default():
+    normalize_img_module.normalize_image(test_image).eval()
+
 test_image = numpy.expand_dims(test_image, axis=0) # reshape for single test
 result = model.predict(test_image)
 
