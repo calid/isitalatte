@@ -10,8 +10,6 @@ from tensorflow.keras.preprocessing import image
 import numpy
 import argparse
 
-normalize_img_module = tf.load_op_library('./ops/normalize_image.so')
-
 # suppress a warning about unused cpu instructions
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -21,6 +19,8 @@ parser.add_argument('image', type=str,
 
 args = parser.parse_args()
 
+normalize_img_module = tf.load_op_library('./ops/normalize_image.so')
+
 print('Loading model...')
 model = tfk.models.load_model('isitalatte.h5')
 print('Done.')
@@ -29,7 +29,7 @@ test_image = image.load_img(args.image, target_size=(150,150))
 test_image = image.img_to_array(test_image)
 
 with tf.Session().as_default():
-    normalize_img_module.normalize_image(test_image).eval()
+    test_image = normalize_img_module.normalize_image(test_image).eval()
 
 test_image = numpy.expand_dims(test_image, axis=0) # reshape for single test
 result = model.predict(test_image)
