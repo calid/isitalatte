@@ -3,8 +3,7 @@
 This repo contains code for generating a binary image classifier that can
 identify images of lattes.  It does this using
 [TensorFlow](https://www.tensorflow.org/), [ImageNet](http://image-net.org/),
-and [Inception v3](https://arxiv.org/abs/1512.00567). To see the model in
-action visit http://isitalatte.com.
+and [Inception v3](https://arxiv.org/abs/1512.00567).
 
 ## Install Dependencies
 
@@ -48,4 +47,4 @@ predictions. Run it as:
 
 ## See Also
 
-https://github.com/calid/isitalatte-app, code for isitalatte.com
+https://github.com/calid/isitalatte-app, code for isitalatte web frontend
